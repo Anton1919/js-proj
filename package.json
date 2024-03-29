@@ -1,0 +1,13 @@
+{
+  "name": "js-proj",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack",
+    "build": ""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
