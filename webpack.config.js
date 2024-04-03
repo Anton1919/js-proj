@@ -2,6 +2,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
+const buildResolvers = require('./config/webpack/buildResolvers');
+const buildLoaders = require('./config/webpack/buildLoaders');
+const buildPlugins = require('./config/webpack/buildPlugins');
+const buildDevServer = require('./config/webpack/buildDevServer');
+const jsLoaders = require('./config/loaders/buildBabelLoader');
 
 const IS_DEV = process.env.NODE_ENV === 'development';
 const IS_PROD = !IS_DEV;
@@ -10,21 +15,15 @@ const fileName = (extension) => {
   return IS_DEV ? `bundle.${extension}` : `bundle.[contenthash].${extension}`;
 };
 
-const jsLoaders = () => {
-  const loaders = [
-    {
-      loader: 'babel-loader',
-      options: {
-        presets: ['@babel/preset-env'],
-      },
-    },
-  ];
-
-  if (IS_DEV) {
-    loaders.push('eslint-loader');
-  }
-
-  return loaders;
+const options = {
+  MiniCssExtractPlugin,
+  HtmlWebpackPlugin,
+  CopyPlugin,
+  fileName,
+  jsLoaders,
+  path,
+  IS_PROD,
+  IS_DEV,
 };
 
 module.exports = {
@@ -35,44 +34,11 @@ module.exports = {
     path: path.resolve(__dirname, 'build'),
     clean: true,
   },
-  resolve: {
-    extensions: ['.js'],
-    preferAbsolute: true,
-    alias: {
-      '@': path.resolve(__dirname, 'src'),
-      '@core': path.resolve(__dirname, 'src', 'core'),
-    },
-  },
-  plugins: [
-    new MiniCssExtractPlugin({
-      filename: fileName('css'),
-    }),
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'src', 'index.html'),
-      minify: {removeComments: IS_PROD, collapseWhitespace: IS_PROD},
-    }),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, 'src', 'favicon.ico'),
-          to: path.resolve(__dirname, 'build'),
-        },
-      ],
-    }),
-  ],
+  resolve: buildResolvers(options),
+  plugins: buildPlugins( options),
   module: {
-    rules: [
-      {
-        test: /\.s[ac]ss$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
-      },
-      {
-        test: /\.m?js$/,
-        exclude: /node_modules/,
-        use: jsLoaders(),
-      },
-    ],
+    rules: buildLoaders(options),
   },
   devtool: IS_DEV ? 'inline-source-map' : false,
-  devServer: {port: 3000, open: IS_DEV, hot: IS_DEV},
+  devServer: buildDevServer(options),
 };
