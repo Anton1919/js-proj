@@ -5,16 +5,19 @@ import {
   isCell,
   isShouldResize,
   matrix,
+  nextSelector,
 } from '@/components/table/table.functions';
 import {TableSelection} from '@/components/table/TableSelection';
 import {$} from '@core/dom';
+
+export const rowCount = 10;
 
 export class Table extends ExcelComponent {
   static className = 'excel__table';
 
   constructor($root) {
     super($root, {
-      listeners: ['mousedown'],
+      listeners: ['mousedown', 'keydown'],
     });
   }
 
@@ -23,7 +26,7 @@ export class Table extends ExcelComponent {
   }
 
   toHTML() {
-    return createTable(10);
+    return createTable(rowCount);
   }
 
   init() {
@@ -44,6 +47,18 @@ export class Table extends ExcelComponent {
       } else {
         this.selection.select($target);
       }
+    }
+  }
+
+  onKeydown(event) {
+    const keys = ['Enter', 'Tab', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+    const {key, shiftKey} = event;
+
+    if (keys.includes(key) && !shiftKey) {
+      event.preventDefault();
+      const id = this.selection.current.id(true);
+      const $next = this.$root.find(nextSelector(key, id));
+      this.selection.select($next);
     }
   }
 }
