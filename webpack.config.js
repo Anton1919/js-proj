@@ -16,9 +16,9 @@ function jsLoaders() {
     },
   ];
 
-  if (IS_DEV) {
-    loaders.push('eslint-loader');
-  }
+  // if (IS_DEV) {
+  //   loaders.push('eslint-loader');
+  // }
 
   return loaders;
 }
@@ -49,7 +49,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src', 'index.html'),
-      minify: {removeComments: IS_PROD, collapseWhitespace: IS_PROD},
+      minify: { removeComments: IS_PROD, collapseWhitespace: IS_PROD },
     }),
     new CopyPlugin({
       patterns: [
@@ -81,4 +81,3 @@ module.exports = {
     watchFiles: [path.resolve(__dirname, './src/*.html')],
   },
 };
-

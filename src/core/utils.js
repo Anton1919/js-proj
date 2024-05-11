@@ -13,7 +13,5 @@ export function range(start, end) {
     [end, start] = [start, end];
   }
   const length = end - start + 1;
-  return new Array(length)
-      .fill('')
-      .map((_, index) => start + index);
+  return new Array(length).fill('').map((_, index) => start + index);
 }

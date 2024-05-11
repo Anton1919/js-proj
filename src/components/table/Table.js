@@ -1,14 +1,9 @@
-import {ExcelComponent} from '@/core/ExcelComponent';
-import {createTable} from '@/components/table/table.template';
-import {resizeHandler} from '@/components/table/table.resize';
-import {
-  isCell,
-  isShouldResize,
-  matrix,
-  nextSelector,
-} from '@/components/table/table.functions';
-import {TableSelection} from '@/components/table/TableSelection';
-import {$} from '@core/dom';
+import { ExcelComponent } from '@/core/ExcelComponent';
+import { createTable } from '@/components/table/table.template';
+import { resizeHandler } from '@/components/table/table.resize';
+import { isCell, isShouldResize, matrix, nextSelector } from '@/components/table/table.functions';
+import { TableSelection } from '@/components/table/TableSelection';
+import { $ } from '@core/dom';
 
 export const rowCount = 10;
 
@@ -47,8 +42,9 @@ export class Table extends ExcelComponent {
     } else if (isCell(event)) {
       const $target = $(event.target);
       if (event.shiftKey) {
-        const $cells = matrix($target, this.selection.current)
-            .map((id) => this.$root.find(`[data-id="${id}"]`));
+        const $cells = matrix($target, this.selection.current).map((id) =>
+          this.$root.find(`[data-id="${id}"]`),
+        );
         this.selection.selectGroup($cells);
       } else {
         this.selection.select($target);
@@ -58,7 +54,7 @@ export class Table extends ExcelComponent {
 
   onKeydown(event) {
     const keys = ['Enter', 'Tab', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
-    const {key, shiftKey} = event;
+    const { key, shiftKey } = event;
 
     if (keys.includes(key) && !shiftKey) {
       event.preventDefault();
@@ -68,5 +64,3 @@ export class Table extends ExcelComponent {
     }
   }
 }
-
-

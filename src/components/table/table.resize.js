@@ -1,4 +1,4 @@
-import {$} from '@core/dom';
+import { $ } from '@core/dom';
 
 export function resizeHandler($root, event) {
   const $resizer = $(event.target);
@@ -14,7 +14,7 @@ export function resizeHandler($root, event) {
   });
 
   document.onmousemove = (e) => {
-    if ( type === 'col') {
+    if (type === 'col') {
       const delta = e.pageX - coords.right;
       value = coords.width + delta;
 
@@ -28,7 +28,7 @@ export function resizeHandler($root, event) {
       // если мы пытаемся уменьшить колонку дальше минимальной ширины
       const maxCursorOffset = coords.width - minWidth;
       const resizerPosition = Math.min(-delta, maxCursorOffset);
-      $resizer.css({right: `${resizerPosition}px`});
+      $resizer.css({ right: `${resizerPosition}px` });
     } else {
       const delta = e.pageY - coords.bottom;
       value = coords.height + delta;
@@ -41,7 +41,7 @@ export function resizeHandler($root, event) {
       // Ниже вычисляем максимально допустимое смещение курсора вверх
       const maxCursorOffset = coords.height - minHeight;
       const resizerPosition = Math.min(-delta, maxCursorOffset);
-      $resizer.css({bottom: `${resizerPosition}px`});
+      $resizer.css({ bottom: `${resizerPosition}px` });
     }
   };
 
@@ -49,12 +49,13 @@ export function resizeHandler($root, event) {
     document.onmousemove = null;
     document.onmouseup = null;
 
-    if ( type === 'col') {
-      $parent.css({width: value + 'px'});
-      $root.findAllSelectors(`[data-col="${$parent.data.col}"]`)
-          .forEach((el) => el.style.width = value + 'px');
+    if (type === 'col') {
+      $parent.css({ width: value + 'px' });
+      $root
+        .findAllSelectors(`[data-col="${$parent.data.col}"]`)
+        .forEach((el) => (el.style.width = value + 'px'));
     } else {
-      $parent.css({height: value + 'px'});
+      $parent.css({ height: value + 'px' });
     }
 
     $resizer.css({
