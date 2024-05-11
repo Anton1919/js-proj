@@ -15,9 +15,11 @@ export const rowCount = 10;
 export class Table extends ExcelComponent {
   static className = 'excel__table';
 
-  constructor($root) {
+  constructor($root, options) {
     super($root, {
+      name: 'Table',
       listeners: ['mousedown', 'keydown'],
+      ...options, // это позволит передать в родительский класс ExcelComponent любые параметры
     });
   }
 
@@ -33,6 +35,10 @@ export class Table extends ExcelComponent {
     super.init(); // вызываем родительский init, чтобы наш метод не перезатирал родительский
     const $cell = this.$root.find('[data-id="0:0"]');
     this.selection.select($cell);
+
+    this.emitter.subscribe('its working', (text) => {
+      this.selection.current.text(text);
+    });
   }
 
   onMousedown(event) {

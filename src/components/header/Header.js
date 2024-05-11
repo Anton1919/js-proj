@@ -3,6 +3,13 @@ import {ExcelComponent} from '@/core/ExcelComponent';
 export class Header extends ExcelComponent {
   static className = 'excel__header';
 
+  constructor($root, options) {
+    super($root, {
+      name: 'Header',
+      ...options, // это позволит передать в родительский класс ExcelComponent любые параметры
+    });
+  }
+
   toHTML() {
     return `
     <input class="input" type="text" value="Новая таблица"/>
