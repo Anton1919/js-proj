@@ -1,5 +1,5 @@
-import {$} from '@/core/dom';
-import {Emitter} from '@core/Emitter';
+import { $ } from '@/core/dom';
+import { Emitter } from '@core/Emitter';
 
 export class Excel {
   constructor(selector, option) {

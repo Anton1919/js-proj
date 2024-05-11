@@ -1,5 +1,5 @@
 export class TableSelection {
-  static className = 'selected'
+  static className = 'selected';
 
   constructor() {
     this.group = [];
@@ -15,15 +15,13 @@ export class TableSelection {
   }
 
   clear() {
-    this.group
-        .forEach((el) => el.removeClass(TableSelection.className));
+    this.group.forEach((el) => el.removeClass(TableSelection.className));
     this.group = [];
   }
 
   selectGroup($group = []) {
     this.clear();
     this.group = $group;
-    this.group
-        .forEach((el) => el.addClass(TableSelection.className));
+    this.group.forEach((el) => el.addClass(TableSelection.className));
   }
 }

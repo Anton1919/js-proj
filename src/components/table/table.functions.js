@@ -1,6 +1,6 @@
-import {range} from '@core/utils';
-import {CODES} from '@/components/table/table.template';
-import {rowCount} from '@/components/table/Table';
+import { range } from '@core/utils';
+import { CODES } from '@/components/table/table.template';
+import { rowCount } from '@/components/table/Table';
 
 export function isShouldResize(event) {
   return event.target.dataset.resize;
@@ -23,7 +23,7 @@ export function matrix($target, $current) {
 }
 
 export function nextSelector(key, id) {
-  let {row, col} = id;
+  let { row, col } = id;
   const colsCount = CODES.Z - CODES.A;
   const minCollRowValue = 0;
   const maxColsValue = colsCount;

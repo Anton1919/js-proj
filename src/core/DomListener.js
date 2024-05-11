@@ -1,4 +1,4 @@
-import {capitalize} from './utils';
+import { capitalize } from './utils';
 
 export class DomListener {
   constructor($root, listeners = []) {
@@ -19,9 +19,7 @@ export class DomListener {
       if (!this[method]) {
         const componentName = this.name || '';
 
-        throw new Error(
-            `Method ${method} is not implemented in ${componentName} component`
-        );
+        throw new Error(`Method ${method} is not implemented in ${componentName} component`);
       }
 
       this[method] = this[method].bind(this);
