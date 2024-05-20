@@ -13,7 +13,7 @@ export class Table extends ExcelComponent {
   constructor($root, options) {
     super($root, {
       name: 'Table',
-      listeners: ['mousedown', 'keydown'],
+      listeners: ['mousedown', 'keydown', 'input'],
       ...options, // это позволит передать в родительский класс ExcelComponent любые параметры
     });
   }
@@ -26,13 +26,22 @@ export class Table extends ExcelComponent {
     return createTable(rowCount);
   }
 
+  selectCell($cell) {
+    this.selection.select($cell);
+    this.$emit('table:select', $cell);
+  }
+
   init() {
     super.init(); // вызываем родительский init, чтобы наш метод не перезатирал родительский
     const $cell = this.$root.find('[data-id="0:0"]');
-    this.selection.select($cell);
+    this.selectCell($cell);
 
-    this.emitter.subscribe('its working', (text) => {
+    this.$on('formula:input', (text) => {
       this.selection.current.text(text);
+    });
+
+    this.$on('formula:done', () => {
+      this.selection.current.focus();
     });
   }
 
@@ -60,7 +69,11 @@ export class Table extends ExcelComponent {
       event.preventDefault();
       const id = this.selection.current.id(true);
       const $next = this.$root.find(nextSelector(key, id));
-      this.selection.select($next);
+      this.selectCell($next);
     }
+  }
+
+  onInput(event) {
+    this.$emit('table:input', $(event.target));
   }
 }
