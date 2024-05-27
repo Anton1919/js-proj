@@ -15,3 +15,10 @@ export function range(start, end) {
   const length = end - start + 1;
   return new Array(length).fill('').map((_, index) => start + index);
 }
+
+export function storage(key, data = null) {
+  if (!data) {
+    return JSON.parse(localStorage.getItem(key));
+  }
+  localStorage.setItem(key, JSON.stringify(data));
+}
