@@ -6,12 +6,16 @@ export class Excel {
     this.$el = $(selector);
     this.components = option.components || [];
     this.emitter = new Emitter();
+    this.store = option.store;
   }
 
   getRoot() {
     const $root = $.create('div', 'excel');
+
+    // Позволяет передать любые опиции в наши компоненеты
     const componentOptions = {
       emitter: this.emitter,
+      store: this.store,
     };
 
     this.components = this.components.map((Component) => {
