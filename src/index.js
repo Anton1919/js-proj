@@ -12,7 +12,7 @@ import './scss/index.scss';
 const store = createStore(rootReducer, initialState);
 
 store.subscribe((state) => {
-  console.log('App state', state);
+  // console.log('App state', state);
   storage(_STORAGE_KEY_, state);
 });
 
