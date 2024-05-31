@@ -97,7 +97,18 @@ class Dom {
   }
 
   css(styles = {}) {
-    Object.keys(styles).forEach((key) => (this.$el.style[key] = styles[key]));
+    // prettier-ignore
+    Object.keys(styles)
+      .forEach((key) => (
+        this.$el.style[key] = styles[key])
+      );
+  }
+
+  getStyles(styles = []) {
+    return styles.reduce((result, currentStyle) => {
+      result[currentStyle] = this.$el.style[currentStyle];
+      return result;
+    }, {});
   }
 }
 
